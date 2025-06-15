@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Template Text Copier",
+  "version": "1.0",
+  "description": "定型文をクリップボードにコピーする拡張機能",
+  "permissions": [
+    "activeTab"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Template Text Copier"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["items.txt"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
