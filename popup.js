@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             populateSelect();
         } catch (error) {
-            console.error('Error loading templates:', error);
             showStatus('テンプレートの読み込みに失敗しました', 'error');
         }
     }
@@ -69,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.close();
             }, 1500);
         } catch (error) {
-            console.error('Error copying to clipboard:', error);
             showStatus('クリップボードへのコピーに失敗しました', 'error');
         }
     });
