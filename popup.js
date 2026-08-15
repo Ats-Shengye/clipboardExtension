@@ -32,7 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // セレクトボックスにオプションを追加
     function populateSelect() {
         // 既存のオプションをクリア（最初のデフォルトオプション以外）
-        templateSelect.innerHTML = '<option value="">テンプレートを選択してください</option>';
+        while (templateSelect.firstChild) templateSelect.removeChild(templateSelect.firstChild);
+        const defaultOpt = document.createElement('option');
+        defaultOpt.value = '';
+        defaultOpt.textContent = 'テンプレートを選択してください';
+        templateSelect.appendChild(defaultOpt);
         
         templates.forEach((template, index) => {
             const option = document.createElement('option');

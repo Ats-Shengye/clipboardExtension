@@ -3,9 +3,7 @@
   "name": "Template Text Copier",
   "version": "1.1",
   "description": "定型文をクリップボードにコピーする拡張機能",
-  "permissions": [
-    "activeTab"
-  ],
+  "permissions": [],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Template Text Copier"
