@@ -5,9 +5,8 @@ updated: 2026-08-16
 
 - Date: 2026-08-16
 - Reviewer: Security reviewer (red-team perspective)
-- Verdict: CONDITIONAL PASS
-- Condition: M-1, M-2 を修正後に PASS
-- ASVS L1 compliance: 80% (8/10) — Chapters: V1, V2, V12, V13, V14
+- Verdict: PASS
+- ASVS L1 compliance: 100% (10/10) — Chapters: V1, V2, V12, V13, V14
 - Static analysis: N/A (vanilla JS, no lint config)
 - Supply chain: No external dependencies
 
@@ -28,25 +27,25 @@ updated: 2026-08-16
   - 実害の文脈: 環境固有 — 改ざんが前提であり現コードでは到達しない。ただしPUBLICリポジトリのフォーク先で悪用される攻撃面を不必要に広げている
   - 修正コスト: 1行で直る
   - 直し方: `manifest.json` の `permissions` を空配列 `[]` に変更。Clipboard APIはポップアップコンテキスト+ユーザージェスチャで動作する
-  - Status: Open
+  - Status: Fixed (2026-08-16, commit 8371dc8) — `permissions` を空配列 `[]` に変更
 - [M-2] items.txt がPUBLICリポジトリで追跡されている — 機密テンプレート混入時のデータ漏洩リスク (items.txt, .gitignore)
   - items.txt は「ログインID」テンプレートを含む設計。現在は `sample_user_id` だが、ユーザーが実際のログインIDやパスワードに書き換えて `git push` した場合、PUBLICリポジトリ経由で漏洩する
   - 攻撃シナリオ: ユーザーがitems.txtを実運用データに編集 → `git add .` → push → GitHub上でログインID/定型文が公開
   - 実害の文脈: 環境固有 — `git add .` 禁止ルール + gitleaks PII拡張で一定の防御があるが、items.txt内の単純なユーザー名文字列はgitleaksパターンにマッチしない可能性が高い
   - 修正コスト: 関数1つ追加（ファイル操作3手順）
   - 直し方: (1) `items.txt` を `.gitignore` に追加 (2) 現在の `items.txt` を `items.txt.example` にリネームしてサンプルとして追跡 (3) README.mdに「`items.txt.example` を `items.txt` にコピーして編集」と記載 (4) `git rm --cached items.txt` で追跡解除
-  - Status: Open
+  - Status: Fixed (2026-08-16, commit 8371dc8) — items.txt.exampleにリネーム+追跡、items.txtをgitignore+追跡解除
 
 #### Low
 - [L-1] `innerHTML` による DOM リセット (popup.js:35) — 現在は安全だが防御的コーディングに反する
   - `templateSelect.innerHTML = '<option value="">テンプレートを選択してください</option>'` はハードコード文字列で安全。ただし将来の変更で動的コンテンツが混入した場合にXSSベクターになる
   - 修正コスト: 1行で直る（数行の置換）
   - 直し方: `while (templateSelect.firstChild) templateSelect.removeChild(templateSelect.firstChild);` + `createElement('option')` で再構築
-  - Status: Open (修正推奨だが必須ではない)
+  - Status: Fixed (2026-08-16, commit 8371dc8) — while+removeChild + createElement に置換
 
 ## Risk Acceptance
 
-(現時点で受容判定なし。M-1, M-2 の修正を推奨)
+全指摘事項が修正済み。受容判定不要
 
 ## Applied Security Measures
 
